@@ -1,0 +1,120 @@
+Naive Bayesian Classifier Version 1.0 08/06/2013
+----------------------------------------
+Yunus Can BILGE - 3439349
+This program is implemented for the Machine 
+Learning and Data Mining Course Project
+----------------------------------------
+included source files : 
+- mldm/textClassification/algorithm
+	- BayesianClassifier.java
+- mldm/textClassification/document
+	- DocumentHolder.java
+	- TestDocumentHolder.java
+- mldm/textClassification/IO
+	- TextFileReader.java
+- mldm/textClassification/main
+	- Tester.java
+included test files : 
+training dataset : 
+- test1DataSets/c1.txt
+- test1DataSets/c2.txt
+- test1DataSets/c3.txt
+- test1DataSets/j1.txt
+- test2DataSets/e1.txt
+- test2DataSets/e2.txt
+- test2DataSets/e3.txt
+- test2DataSets/e4.txt
+- test2DataSets/e5.txt
+- test2DataSets/e6.txt
+- test2DataSets/e7.txt
+- test2DataSets/e8.txt
+- test2DataSets/e9.txt
+- test2DataSets/e10.txt
+- test4DataSets/s1.txt
+- test4DataSets/s2.txt
+- test4DataSets/s3.txt
+- test4DataSets/s4.txt
+- test4DataSets/s5.txt
+- test5DataSets/c1.txt
+- test5DataSets/c2.txt
+- test5DataSets/c3.txt
+- test5DataSets/c4.txt
+- test5DataSets/c5.txt
+- test5DataSets/c6.txt
+- test5DataSets/c7.txt
+- test5DataSets/c8.txt
+- test5DataSets/c9.txt
+test dataset  
+- test1DataSets/test.txt
+- test2DataSets/tt.txt
+- test4DataSets/ss.txt
+- test5DataSets/t1.txt
+- test5DataSets/t2.txt
+- test5DataSets/t3.txt
+- test5DataSets/t4.txt
+- test5DataSets/t5.txt
+- test5DataSets/t6.txt
+- test5DataSets/t7.txt
+- test5DataSets/t8.txt
+- test5DataSets/t9.txt
+- test5DataSets/t10.txt
+- test5DataSets/t11.txt
+- test5DataSets/t12.txt
+- test5DataSets/t13.txt
+- test5DataSets/t14.txt
+---------------------------------------------------------
+To run the whole program in a linux machine;
+$ cd DocumentAddressUpToHere/MLProject/TextClassification/src
+$ javac mldm/textClassification/main/*.java
+$ javac mldm/textClassification/IO/*.java
+$ javac mldm/textClassification/document/*.java
+$ javac mldm/textClassification/algorithm/*.java
+$ java -cp . mldm.textClassification.main.Tester
+----------------------------------------------------------
+To test the program training and test data must be in the following format;
+ 1) Every document must be in a different file
+ 2) For the training set; every file's first line must include it's class and the remaining lines should have the document's
+ content. An example test files provided with the project.
+For the test file; 
+ 1) test file's first line must be left empty which corresponds to it is not classified yet and the remaining lines should have the document's contents(words).
+
+To run the tests; 
+  For Every file or document for training;
+ 1) one DocumentHolder and one TextFileReader objects must be created 
+----------------------------------------------------------------------------
+DocumentHolder documentHolder1 = new DocumentHolder();
+TextFileReader textfileReader1 = new TextFileReader("test5DataSets/c1.txt");
+...
+----------------------------------------------------------------------------
+ 2) and after that readAndPutToHolderClass method must be called with the created objects. This method put's textFile content(it's corresponding class and words) into the DocumentHolder object so that from now on program uses this object for the representation of the document. 
+----------------------------------------------------------------------------
+readAndPutToHolderClass(documentHolder1, textfileReader1);
+----------------------------------------------------------------------------
+ 3) For the test data;  one TestDocumentHolder and TextFileReader objects must be created and readAndPutToTestHolderClass method must be called with the created TestDocumentHolder and TextFileReader objects. TestDocumentHolder object and readAndPutToTestHolder method has the same objective as DocumentHolder and readAndPutToHolderClass but the test methods are created just because test document does not have classification yet. For the better implementation these methods can be united.
+------------------------------------------------------------------
+TestDocumentHolder testDocumentHolder = new TestDocumentHolder();
+TextFileReader test = new TextFileReader("test5DataSets/t13.txt");
+readAndPutToTestHolderClass(testDocumentHolder, test);
+------------------------------------------------------------------
+ 4) After creating all of these objects, BayesianClassifier object must be created because the naive bayesian algorithm is implemented inside the corresponding class. BayesianClassifier class constructor expects list which must include training documents/documentHolder objects that are created.
+--------------------------------------------------------------------------
+List<DocumentHolder> documentHolderList = new ArrayList<DocumentHolder>();
+documentHolderList.add(documentHolder1);
+BayesianClassifier bayesianClassifier = new BayesianClassifier(documentHolderList);
+--------------------------------------------------------------------------
+ 5) BayesianClassifierAlgorithm method must be called with the test document/testDocumentHolder object as an argument which classifies the provided testDocumentHolder. 
+-----------------------------------------------------------------------------------
+bayesianClassifier.BayesianClassifierAlgorithm(testDocumentHolder);
+-----------------------------------------------------------------------------------
+ 6) On the other hand if the provided training documents or test documents have lots of words then the BayesianClassifierAlgorithmForBigDocs method should be called with the testDocumentHolder object instead of the BayesianClassifierAlgorithm method. Because the BayesianClassifierAlgorithmForBigDocs method includes some optimisations which is explained in the project report.
+--------------------------------------------------
+bayesianClassifier.BayesianClassifierAlgorithmForBigDocs(testDocumentHolder);
+--------------------------------------------------
+ 7) Due to 200kb submission limit test3 data files which are 20 newgroups data sets in my program reading format are not provided with the source code. To run test 5; create a Tester object and call the createTest5 method. 
+------------------------------------------
+Tester tester = new Tester();
+tester.createTest5();
+------------------------------------------
+---------------------------------------------------------
+More details and explanations about the methods and classes are added as a comment to the source files described above.
+
